@@ -1,0 +1,13 @@
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta content="text/html;charset=UTF-8"/>
+<link th:src="@{common/js/bootstap/css/bootstap.mini.css}" />
+<link th:src="@{common/js/bootstap/css/bootstap-theme.mini.css}" />
+<script th:src="@{common/js/jquery-1.10.2.mini.js}" type="text/javascript"></script>
+<script th:src="@{common/js/bootstap/js/bootstap.mini.js}" type="text/javascript"></script>
+</head>
+<body>
+<div style="color: red;">welcome！<span th:text="${person.name}"></span></div>
+<img    alt="App Logo" th:src="@{/common/images/error.png}" />  
+</body>
+</html>
