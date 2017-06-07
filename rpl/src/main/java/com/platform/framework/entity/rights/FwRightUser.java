@@ -16,32 +16,38 @@ import javax.persistence.TemporalType;
 @Table(name = "FW_RIGHT_USER")
 public class FwRightUser implements java.io.Serializable {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	// Fields
 
-	private String id;//主键ID
-	private String userCode;//用户编码 ，登录账号！
-	private String userName;//用户名字;真实名称
-	private String password;//密码
-	private String userType;//用户类型 ,表明是什么类型的用户，比如admin,guest,根据业务来
-	private String email;//邮箱
-	private String telephone;//电话
-	private String orgId;//所在组织机构
-	private String isEnable;//账号是否可用
-	private String isDeleted;//账号是否删除
-	private String isOnline;//是否在线
-	private String isLocked;//是否锁定
-	private Date regTime;//注册时间
-	private String createUserCode;//创建用户ID
-	private String createUserName;//创建用户名称
-	private Date createTime;//创建时间
-	private String updateUserCode;//更新code
-	private String updateUserName;//更新用户名称
-	private Date updateTime;//更新时间
-	private String remark;//备注
+	private String id;// 主键ID
+	private String userCode;// 用户编码 ，登录账号！
+	private String userName;// 用户名字;真实名称
+	private String password;// 密码
+	private String userType;// 用户类型 ,表明是什么类型的用户，比如admin,guest,根据业务来
+	private String email;// 邮箱
+	private String telephone;// 电话
+	private String orgId;// 所在组织机构
+	private String isEnable;// 账号是否可用
+	private String isDeleted;// 账号是否删除
+	private String isOnline;// 是否在线
+	private String isLocked;// 是否锁定
+	private Date regTime;// 注册时间
+	private String createUserCode;// 创建用户ID
+	private String createUserName;// 创建用户名称
+	private Date createTime;// 创建时间
+	private String updateUserCode;// 更新code
+	private String updateUserName;// 更新用户名称
+	private Date updateTime;// 更新时间
+	private String remark;// 备注
+
 	// Constructors
 	/** default constructor */
 	public FwRightUser() {
 	}
+
 	/** full constructor */
 	public FwRightUser(String id, String userCode, String userName,
 			String password, String userType, String email, String telephone,
@@ -70,12 +76,12 @@ public class FwRightUser implements java.io.Serializable {
 		this.updateTime = updateTime;
 		this.remark = remark;
 	}
+
 	// Property accessors
 	@Id
 	public String getId() {
 		return this.id;
 	}
-
 
 	public void setId(String id) {
 		this.id = id;
@@ -135,7 +141,6 @@ public class FwRightUser implements java.io.Serializable {
 		this.userName = userName;
 	}
 
-
 	@Column(name = "IS_ENABLE", length = 100)
 	public String getIsEnable() {
 		return this.isEnable;
@@ -171,6 +176,7 @@ public class FwRightUser implements java.io.Serializable {
 	public void setIsLocked(String isLocked) {
 		this.isLocked = isLocked;
 	}
+
 	@Temporal(TemporalType.TIMESTAMP)
 	@Column(name = "REG_TIME", length = 7)
 	public Date getRegTime() {
@@ -198,6 +204,7 @@ public class FwRightUser implements java.io.Serializable {
 	public void setCreateUserName(String createUserName) {
 		this.createUserName = createUserName;
 	}
+
 	@Temporal(TemporalType.TIMESTAMP)
 	@Column(name = "CREATE_TIME", length = 7)
 	public Date getCreateTime() {
@@ -225,6 +232,7 @@ public class FwRightUser implements java.io.Serializable {
 	public void setUpdateUserName(String updateUserName) {
 		this.updateUserName = updateUserName;
 	}
+
 	@Temporal(TemporalType.TIMESTAMP)
 	@Column(name = "UPDATE_TIME", length = 7)
 	public Date getUpdateTime() {

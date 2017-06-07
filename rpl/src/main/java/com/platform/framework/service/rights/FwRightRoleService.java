@@ -40,6 +40,17 @@ public class FwRightRoleService extends BaseServiceImpl {
 	}
 	
 	/**
+	 * 根据userCode 查询所对应的角色信息
+	 * @param userCode
+	 * @return
+	 * @throws Exception
+	 */
+	public List<FwRightRole> getRolesByUserCode(String userCode) throws Exception{
+		String sql  = "SELECT a.* FROM FW_RIGHT_ROLE  a LEFT JOIN FW_RIGHT_ROLE_USER_REF b ON a.ID = b.ROLE_ID LEFT JOIN fw_right_user c ON b.USER_ID = c.id where c.USER_CODE='"+userCode+"'";
+		return super.getDao().findBySql(sql, FwRightRole.class);
+	}
+	
+	/**
 	 * 调用原生SQL进行查询
 	 * @return
 	 * @throws Exception

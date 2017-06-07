@@ -5,7 +5,7 @@
 	<artifactId>rpl</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<properties>
-	<java.version>1.7</java.version>
+	<java.version>1.8</java.version>
 	</properties>
 	<!-- 添加spring boot支持 -->
 	<dependencyManagement>  
@@ -36,7 +36,29 @@
 	      <groupId>org.springframework.boot</groupId>
 	      <artifactId>spring-boot-starter-thymeleaf</artifactId>
 	    </dependency>
-        
+	    
+	    <!-- 添加security安全权限支持 -->
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-security</artifactId>
+		</dependency>
+		<!-- security 对CAS支持 -->
+		<dependency>
+			<groupId>org.springframework.security</groupId>
+			<artifactId>spring-security-cas</artifactId>
+		</dependency>
+		<!-- security taglibs,用于前台 标签控制 
+		<dependency>
+			<groupId>org.springframework.security</groupId>
+			<artifactId>spring-security-taglibs</artifactId>
+		</dependency>-->
+		
+		<!-- thymeleaf 的spring security支持  
+		<dependency>
+			<groupId>org.thymeleaf.extras</groupId>
+			<artifactId>thymeleaf-extras-springsecurity4</artifactId>
+		</dependency>    
+        -->
 		<!-- 添加web项目支持 -->
 		<dependency>
 			<groupId>org.springframework.boot</groupId>

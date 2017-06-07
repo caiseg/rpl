@@ -5,6 +5,7 @@ import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -79,7 +80,7 @@ public class DemoController {
 	}
 
 	/**
-	 * 异常统一处理，进入index.html模板页面
+	 * 进入index.html模板页面
 	 * 
 	 * @return
 	 */
@@ -97,21 +98,44 @@ public class DemoController {
 	}
 	
 	/**
-	 * 异常统一处理，进入index.html模板页面
+	 * 异常统一处理，找不到页面进入抛出404
 	 * 
 	 * @return
 	 */
 	@RequestMapping("/index1")
 	public ModelAndView welcomejsp(Model model) {
-		Test test = new Test();
-		test.setAge(18);
-		test.setName("zhangsan");
-		test.setId("1");
-		test.setBirthday(new Date());
-		test.setBirthtime(new Timestamp(new Date().getTime()));
-		model.addAttribute("person", test);
 		ModelAndView mv = new ModelAndView("user/index1");
 		return mv;
 	}
+	
+	 @RequestMapping("/")  
+    public ModelAndView index(Model model) {  
+		 ModelAndView mv = new ModelAndView("index");
+		 return mv;
+    }  
+  
+    @RequestMapping("/hello")  
+    public String hello() {  
+        return "不验证哦";  
+    }
+    
+    @RequestMapping("/pages")  
+    public String pages() {  
+        return "也不验证哦";  
+    }  
+    
+	  
+    @PreAuthorize("hasAuthority('guest')")//有guest权限的才能访问  
+    @RequestMapping("/security")  
+    public String security() {  
+        return "hello world security";  
+    }  
+  
+    @PreAuthorize("hasAuthority('admin')")//必须要有admin权限的才能访问  
+    @RequestMapping("/authorize")  
+    public String authorize() {  
+        return "有权限访问";  
+    }  
+	
 
 }

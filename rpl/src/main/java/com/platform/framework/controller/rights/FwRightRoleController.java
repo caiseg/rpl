@@ -53,7 +53,7 @@ public class FwRightRoleController {
 	
 	/**
 	 * 
-	 * role分页数据
+	 * 本地role分页数据
 	 * @return
 	 * @throws Exception 
 	 */
