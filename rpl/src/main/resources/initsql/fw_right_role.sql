@@ -1,0 +1,2 @@
+INSERT INTO `fw_right_role` VALUES ('1', NULL, NULL, NULL, NULL, NULL, NULL, 'admin', NULL, NULL, NULL, NULL);
+INSERT INTO `fw_right_role` VALUES ('2', NULL, NULL, NULL, NULL, NULL, NULL, 'guest', NULL, NULL, NULL, NULL);
