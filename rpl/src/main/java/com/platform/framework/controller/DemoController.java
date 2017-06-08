@@ -6,21 +6,26 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.google.common.base.Objects;
 import com.google.common.collect.Lists;
 import com.platform.common.config.SystemConfig;
+import com.platform.common.security.UserInfo;
 import com.platform.common.utils.JsonUtils;
+import com.platform.framework.controller.common.BaseController;
 import com.platform.framework.entity.Test;
 import com.platform.framework.entity.rights.FwRightRole;
 import com.platform.framework.service.rights.FwRightRoleService;
 
 @RestController
-public class DemoController {
+public class DemoController extends BaseController{
 
 	@Autowired
 	SystemConfig systemConfig;
@@ -93,9 +98,11 @@ public class DemoController {
 		test.setBirthday(new Date());
 		test.setBirthtime(new Timestamp(new Date().getTime()));
 		model.addAttribute("person", test);
-		ModelAndView mv = new ModelAndView("user/index");
+		model.addAttribute("user", super.getUserEntity());
+		ModelAndView mv = new ModelAndView("index");
 		return mv;
 	}
+	
 	
 	/**
 	 * 异常统一处理，找不到页面进入抛出404
@@ -108,9 +115,27 @@ public class DemoController {
 		return mv;
 	}
 	
+	/**
+	 * 进入index2.html模板页面
+	 * 
+	 * @return
+	 **/
+	@RequestMapping("/index2")
+	public ModelAndView welcome2(Model model) {
+		
+		ModelAndView mv = new ModelAndView("index2");
+		return mv;
+	}
+	
 	 @RequestMapping("/")  
     public ModelAndView index(Model model) {  
 		 ModelAndView mv = new ModelAndView("index");
+		 
+		// System.out.println("*******"+super.getUserRoleStr());
+		// System.out.println(super.getUserCode());
+		// System.out.println("*******"+super.getUserId());
+		 
+		 model.addAttribute("user", super.getUserEntity());
 		 return mv;
     }  
   

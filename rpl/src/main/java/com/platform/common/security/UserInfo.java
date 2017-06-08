@@ -17,7 +17,7 @@ public class UserInfo implements UserDetails {
     /** 
      * 用户ID 
      */  
-    private Long id;  
+    private String id;  
   
     /** 
      * 用户名称 
@@ -44,11 +44,11 @@ public class UserInfo implements UserDetails {
   
     private Set<AuthorityInfo> authorities = new HashSet<AuthorityInfo>();
 
-	public Long getId() {
+	public String getId() {
 		return id;
 	}
 
-	public void setId(Long id) {
+	public void setId(String id) {
 		this.id = id;
 	}
 

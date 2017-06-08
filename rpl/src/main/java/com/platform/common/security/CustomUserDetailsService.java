@@ -38,16 +38,16 @@ public class CustomUserDetailsService  implements AuthenticationUserDetailsServi
         	throw new UsernameNotFoundException("用户名不存在");
         }
         //用于管理权限的UserInfo 无任何意义
-        UserInfo userInfo = new UserInfo();  
-        userInfo.setName(fwRightUser.getUserName());  
-        userInfo.setUsername(fwRightUser.getUserCode());
+        UserInfo userInfo = new UserInfo();
+        userInfo.setId(fwRightUser.getId());//设置主键
+        userInfo.setName(fwRightUser.getUserName());//设置用户名称  
+        userInfo.setUsername(fwRightUser.getUserCode());//设置用户编码
         Set<AuthorityInfo> authorities = Sets.newHashSet();
         try {
 			List<FwRightRole> roles  = fwRightRoleService.getRolesByUserCode(token.getName());
 			AuthorityInfo authorityInfo;
 			for(FwRightRole role:roles){
 				authorityInfo = new AuthorityInfo(role.getRoleName());
-				System.out.println(role.getRoleName());
 				authorities.add(authorityInfo);
 			}
 			userInfo.setAuthorities(authorities);

@@ -47,18 +47,18 @@
 			<groupId>org.springframework.security</groupId>
 			<artifactId>spring-security-cas</artifactId>
 		</dependency>
-		<!-- security taglibs,用于前台 标签控制 
+		<!-- security taglibs,用于前台 标签控制 -->
 		<dependency>
 			<groupId>org.springframework.security</groupId>
 			<artifactId>spring-security-taglibs</artifactId>
-		</dependency>-->
+		</dependency>
 		
-		<!-- thymeleaf 的spring security支持  
+		<!-- thymeleaf 的spring security支持   -->
 		<dependency>
 			<groupId>org.thymeleaf.extras</groupId>
 			<artifactId>thymeleaf-extras-springsecurity4</artifactId>
 		</dependency>    
-        -->
+       
 		<!-- 添加web项目支持 -->
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
