@@ -1,5 +1,6 @@
 package com.platform.common.security;
 
+import java.util.Date;
 import java.util.HashSet;  
 import java.util.Set;  
   
@@ -28,6 +29,18 @@ public class UserInfo implements UserDetails {
      * 登录名称 
      */  
     private String username;  
+    
+    
+    /**
+     * 描述信息
+     */
+    private String description;
+    
+    /**
+     * 注册时间
+     */
+    private Date regTime;// 注册时间
+    
   
     /** 
      * 登录密码 
@@ -114,6 +127,24 @@ public class UserInfo implements UserDetails {
 
 	public void setAuthorities(Set<AuthorityInfo> authorities) {
 		this.authorities = authorities;
+	}
+
+	public String getDescription() {
+		return description;
+	}
+
+	public void setDescription(String description) {
+		this.description = description;
+	}
+
+	public Date getRegTime() {
+		return regTime;
+	}
+
+	public void setRegTime(Date regTime) {
+		this.regTime = regTime;
 	}  
+	
+	
     
 }

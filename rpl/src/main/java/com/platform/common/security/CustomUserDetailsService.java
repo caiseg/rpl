@@ -42,6 +42,9 @@ public class CustomUserDetailsService  implements AuthenticationUserDetailsServi
         userInfo.setId(fwRightUser.getId());//设置主键
         userInfo.setName(fwRightUser.getUserName());//设置用户名称  
         userInfo.setUsername(fwRightUser.getUserCode());//设置用户编码
+        userInfo.setDescription(fwRightUser.getRemark());//设置备注信息
+        userInfo.setRegTime(fwRightUser.getRegTime());//设置注册时间
+        
         Set<AuthorityInfo> authorities = Sets.newHashSet();
         try {
 			List<FwRightRole> roles  = fwRightRoleService.getRolesByUserCode(token.getName());

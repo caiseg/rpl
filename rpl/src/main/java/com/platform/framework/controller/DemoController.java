@@ -91,13 +91,6 @@ public class DemoController extends BaseController{
 	 */
 	@RequestMapping("/index")
 	public ModelAndView welcome(Model model) {
-		Test test = new Test();
-		test.setAge(18);
-		test.setName("zhangsan");
-		test.setId("1");
-		test.setBirthday(new Date());
-		test.setBirthtime(new Timestamp(new Date().getTime()));
-		model.addAttribute("person", test);
 		model.addAttribute("user", super.getUserEntity());
 		ModelAndView mv = new ModelAndView("index");
 		return mv;
