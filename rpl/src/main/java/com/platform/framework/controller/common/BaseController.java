@@ -2,13 +2,13 @@ package com.platform.framework.controller.common;
 
 
 import java.util.Set;
+import java.util.UUID;
 
 import org.springframework.context.annotation.Scope;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 
-import com.google.common.base.Joiner;
 import com.platform.common.security.AuthorityInfo;
 import com.platform.common.security.UserInfo;
 
@@ -71,15 +71,25 @@ public class BaseController implements IBaseController {
 	}
 
 
-	@Override
-	public String getUUID() {
-		return java.util.UUID.randomUUID().toString();
-	}
+	/** 
+     * 获得一个32位的UUID 
+     * @return String UUID 
+     */ 
+    public  String getUUID(){ 
+        String s = UUID.randomUUID().toString(); 
+        return s.substring(0,8)+s.substring(9,13)+s.substring(14,18)+s.substring(19,23)+s.substring(24); 
+    } 
 	
 	public static void main(String[] args) {
-		Joiner joiner = Joiner.on(",").skipNulls();
-		System.out.println(joiner.toString());
-		System.out.println(joiner.join("Harry","11"));
+		//Joiner joiner = Joiner.on(",").skipNulls();
+		//System.out.println(joiner.toString());
+		//System.out.println(joiner.join("Harry","11"));
+		  String s = UUID.randomUUID().toString(); 
+		  System.out.println(s.length());
+	        //去掉“-”符号 
+	     
+		  String uuid =  s.substring(0,8)+s.substring(9,13)+s.substring(14,18)+s.substring(19,23)+s.substring(24);
+		  System.out.println(uuid.length());
 
 	}
 }

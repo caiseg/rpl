@@ -65,6 +65,7 @@ public class FwRightRole implements java.io.Serializable {
 
 	// Property accessors
 	@Id
+	@Column(name = "ID", unique = true, nullable = false, length = 40)
 	//@GenericGenerator(name="system-uuid", strategy="uuid")
 	//@GeneratedValue(generator="system-uuid")
 	public String getId() {

@@ -2,9 +2,13 @@ package com.platform.common.security;
 
 import java.util.Date;
 import java.util.HashSet;  
+import java.util.List;
 import java.util.Set;  
   
 import org.springframework.security.core.userdetails.UserDetails;  
+
+import com.google.common.collect.Lists;
+import com.platform.framework.entity.rights.FwPlModule;
   
 /** 
  * 用户信息 
@@ -40,6 +44,11 @@ public class UserInfo implements UserDetails {
      * 注册时间
      */
     private Date regTime;// 注册时间
+    
+    /**
+     * 模块，功能权限
+     */
+    private List<FwPlModule> modules;//所拥有的权限
     
   
     /** 
@@ -143,8 +152,20 @@ public class UserInfo implements UserDetails {
 
 	public void setRegTime(Date regTime) {
 		this.regTime = regTime;
-	}  
+	}
+
+	public List<FwPlModule> getModules() {
+		return modules;
+	}
 	
+	/**
+	 * 设置模块权限
+	 * @param modules
+	 */
+	public void setModules(List<FwPlModule> modules) {
+		this.modules = Lists.newArrayList();
+		this.modules.addAll(modules);
+	}  
 	
     
 }

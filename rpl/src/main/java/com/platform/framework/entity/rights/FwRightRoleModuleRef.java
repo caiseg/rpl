@@ -14,6 +14,10 @@ public class FwRightRoleModuleRef implements java.io.Serializable {
 
 	// Fields
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private String id;
 	private String roleId;
 	private String moduleId;
@@ -38,6 +42,7 @@ public class FwRightRoleModuleRef implements java.io.Serializable {
 
 	// Property accessors
 	@Id
+	@Column(name = "ID", unique = true, nullable = false, length = 40)
 	public String getId() {
 		return this.id;
 	}

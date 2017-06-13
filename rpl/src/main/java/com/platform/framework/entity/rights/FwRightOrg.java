@@ -14,6 +14,10 @@ import javax.persistence.TemporalType;
 @Entity
 @Table(name = "FW_RIGHT_ORG")
 public class FwRightOrg implements java.io.Serializable {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	// Fields
 	private String id;
 	private String orgName;
@@ -60,6 +64,7 @@ public class FwRightOrg implements java.io.Serializable {
 	}
 	// Property accessors
 	@Id
+	@Column(name = "ID", unique = true, nullable = false, length = 40)
 	public String getId() {
 		return this.id;
 	}

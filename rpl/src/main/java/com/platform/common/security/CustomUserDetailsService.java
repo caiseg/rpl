@@ -1,18 +1,18 @@
 package com.platform.common.security;
 import java.util.List;
-import java.util.Set;  
-  
+import java.util.Set;
+
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.cas.authentication.CasAssertionAuthenticationToken;  
-import org.springframework.security.core.userdetails.AuthenticationUserDetailsService;  
-import org.springframework.security.core.userdetails.UserDetails;  
-import org.springframework.security.core.userdetails.UsernameNotFoundException;  
+import org.springframework.security.cas.authentication.CasAssertionAuthenticationToken;
+import org.springframework.security.core.userdetails.AuthenticationUserDetailsService;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 
 import com.google.common.collect.Sets;
 import com.platform.framework.dao.rights.FwRightUserRepository;
-import com.platform.framework.entity.rights.FwRightRole;
+import com.platform.framework.entity.rights.FwPlModule;
 import com.platform.framework.entity.rights.FwRightUser;
-import com.platform.framework.service.rights.FwRightRoleService;
+import com.platform.framework.service.rights.FwPlModuleService;
 
   
 /** 
@@ -26,7 +26,7 @@ public class CustomUserDetailsService  implements AuthenticationUserDetailsServi
 	FwRightUserRepository fwRightUserRepository;
 	
 	@Autowired
-	FwRightRoleService fwRightRoleService;
+	FwPlModuleService fwPlModuleService;
 	
     @Override  
     public UserDetails loadUserDetails(CasAssertionAuthenticationToken token) throws UsernameNotFoundException {  
@@ -47,10 +47,11 @@ public class CustomUserDetailsService  implements AuthenticationUserDetailsServi
         
         Set<AuthorityInfo> authorities = Sets.newHashSet();
         try {
-			List<FwRightRole> roles  = fwRightRoleService.getRolesByUserCode(token.getName());
+			List<FwPlModule> modules  = fwPlModuleService.getModulesByUserId(fwRightUser.getId());
+			userInfo.setModules(modules);//设置模块权限session
 			AuthorityInfo authorityInfo;
-			for(FwRightRole role:roles){
-				authorityInfo = new AuthorityInfo(role.getRoleName());
+			for(FwPlModule module:modules){
+				authorityInfo = new AuthorityInfo(module.getPermission());
 				authorities.add(authorityInfo);
 			}
 			userInfo.setAuthorities(authorities);

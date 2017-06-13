@@ -79,6 +79,7 @@ public class FwRightUser implements java.io.Serializable {
 
 	// Property accessors
 	@Id
+	@Column(name = "ID", unique = true, nullable = false, length = 40)
 	public String getId() {
 		return this.id;
 	}

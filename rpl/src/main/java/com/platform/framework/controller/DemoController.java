@@ -143,7 +143,7 @@ public class DemoController extends BaseController{
     }  
     
 	  
-    @PreAuthorize("hasAuthority('guest')")//有guest权限的才能访问  
+    @PreAuthorize("hasAuthority('user:view')")//有用户添加权限的才能访问  
     @RequestMapping("/security")  
     public String security() {  
         return "hello world security";  

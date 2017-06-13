@@ -6,39 +6,43 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 /**
- * FwRightRoleModuleoptRef entity. @author MyEclipse Persistence Tools
+ * FwRightRoleSystemRef entity. @author MyEclipse Persistence Tools
  */
 @Entity
-@Table(name = "FW_RIGHT_ROLE_MODULEOPT_REF")
-public class FwRightRoleModuleoptRef implements java.io.Serializable {
+@Table(name = "FW_RIGHT_ROLE_SYSTEM_REF", schema = "GDGS")
+public class FwRightRoleSystemRef implements java.io.Serializable {
 
 	// Fields
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private String id;
 	private String roleId;
-	private String moduleoperationId;
+	private String systemId;
 
 	// Constructors
 
 	/** default constructor */
-	public FwRightRoleModuleoptRef() {
+	public FwRightRoleSystemRef() {
 	}
 
 	/** minimal constructor */
-	public FwRightRoleModuleoptRef(String id) {
+	public FwRightRoleSystemRef(String id) {
 		this.id = id;
 	}
 
 	/** full constructor */
-	public FwRightRoleModuleoptRef(String id, String roleId,
-			String moduleoperationId) {
+	public FwRightRoleSystemRef(String id, String roleId, String systemId) {
 		this.id = id;
 		this.roleId = roleId;
-		this.moduleoperationId = moduleoperationId;
+		this.systemId = systemId;
 	}
 
 	// Property accessors
 	@Id
+	@Column(name = "ID", unique = true, nullable = false, length = 40)
 	public String getId() {
 		return this.id;
 	}
@@ -56,13 +60,13 @@ public class FwRightRoleModuleoptRef implements java.io.Serializable {
 		this.roleId = roleId;
 	}
 
-	@Column(name = "MODULEOPERATION_ID", length = 300)
-	public String getModuleoperationId() {
-		return this.moduleoperationId;
+	@Column(name = "SYSTEM_ID", length = 300)
+	public String getSystemId() {
+		return this.systemId;
 	}
 
-	public void setModuleoperationId(String moduleoperationId) {
-		this.moduleoperationId = moduleoperationId;
+	public void setSystemId(String systemId) {
+		this.systemId = systemId;
 	}
 
 }
