@@ -33,7 +33,13 @@ public class BaseController implements IBaseController {
 	@Override
 	public UserInfo getUserEntity() {
 		UserInfo userInfo = null;
-		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+		Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		  if (principal instanceof UserInfo) {
+			 userInfo = (UserInfo)principal;
+	      }
+	      //return String.valueOf(principal);
+		/*Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+		System.out.println();
 		if(null != authentication){
 			//如果当前未登录采用匿名用户
 			if(authentication.getPrincipal().equals("anonymousUser")){
@@ -41,7 +47,7 @@ public class BaseController implements IBaseController {
 			}else{
 				userInfo = (UserInfo)authentication.getPrincipal();
 			}
-		}
+		}*/
 		return userInfo;
 	}
 

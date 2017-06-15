@@ -1,12 +1,14 @@
 package com.platform.common.security;
 
 import java.util.Date;
-import java.util.HashSet;  
+import java.util.HashSet;
 import java.util.List;
-import java.util.Set;  
-  
-import org.springframework.security.core.userdetails.UserDetails;  
+import java.util.Set;
 
+import org.springframework.security.core.userdetails.UserDetails;
+
+import com.alibaba.druid.util.StringUtils;
+import com.google.common.base.Joiner;
 import com.google.common.collect.Lists;
 import com.platform.framework.entity.rights.FwPlModule;
   
@@ -159,6 +161,59 @@ public class UserInfo implements UserDetails {
 	}
 	
 	/**
+	 * 根据parentId获取所有的子ID
+	 * @param parentId
+	 * @return
+	 */
+	public List<FwPlModule> getNextModules(String parentId) {
+		List<FwPlModule> nextModules = Lists.newArrayList();
+		for(FwPlModule flModule : this.getModules()){
+			if(flModule.getParentId().equals(parentId)){
+				nextModules.add(flModule);
+			}
+		}
+		return nextModules;
+	}
+	/**
+	 * 根据ID查找名称
+	 * @param id
+	 * @return
+	 */
+	private String getModuleNameById(String Id) {
+		String name="";
+		for(FwPlModule flModule : this.getModules()){
+			if(flModule.getId().equals(Id)){
+				name = flModule.getModuleName();
+				break;
+			}
+		}
+		return name;
+	}
+	
+	/**
+	 * 根据模块ID获取导航信息
+	 * @param modules
+	 * @return
+	 */
+	public String getNavInfos(FwPlModule params){
+		List<String> list = Lists.newArrayList();
+		String parentIds = params.getParentIds();
+		//如果不为空
+		if(!StringUtils.isEmpty(parentIds)){
+			String []pars = parentIds.split(",");
+			if(pars.length > 2){
+				for(int i=2;i<pars.length;i++){
+					list.add(getModuleNameById(pars[i]));
+				}
+			}
+		}
+		list.add(params.getModuleName());
+		Joiner joiner = Joiner.on(",").skipNulls();
+		joiner.join(list.iterator());
+		return joiner.join(list.iterator());
+	}
+	
+	/**
 	 * 设置模块权限
 	 * @param modules
 	 */
@@ -167,5 +222,11 @@ public class UserInfo implements UserDetails {
 		this.modules.addAll(modules);
 	}  
 	
+	
+	public static void main(String[] args) {
+		//Joiner joiner = Joiner.on(",").skipNulls();
+		//System.out.println(joiner.toString());
+		//System.out.println(joiner.join("Harry","11"));
+	}
     
 }

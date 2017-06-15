@@ -4,7 +4,10 @@ import java.sql.Timestamp;
 import java.util.Date;
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpRequest;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -83,6 +86,12 @@ public class DemoController extends BaseController{
 		//System.out.println(list.get(1));
 		return mv;
 	}
+	
+	 @RequestMapping("/")  
+	 public ModelAndView index(Model model) {  
+			 ModelAndView mv = new ModelAndView("home");
+			 return mv;
+	}  
 
 	/**
 	 * 进入index.html模板页面
@@ -90,8 +99,7 @@ public class DemoController extends BaseController{
 	 * @return
 	 */
 	@RequestMapping("/index")
-	public ModelAndView welcome(Model model) {
-		model.addAttribute("user", super.getUserEntity());
+	public ModelAndView welcome(Model model,HttpServletRequest request) {
 		ModelAndView mv = new ModelAndView("index");
 		return mv;
 	}
@@ -115,22 +123,11 @@ public class DemoController extends BaseController{
 	 **/
 	@RequestMapping("/index2")
 	public ModelAndView welcome2(Model model) {
-		
 		ModelAndView mv = new ModelAndView("index2");
 		return mv;
 	}
 	
-	 @RequestMapping("/")  
-    public ModelAndView index(Model model) {  
-		 ModelAndView mv = new ModelAndView("index");
-		 
-		// System.out.println("*******"+super.getUserRoleStr());
-		// System.out.println(super.getUserCode());
-		// System.out.println("*******"+super.getUserId());
-		 
-		 model.addAttribute("user", super.getUserEntity());
-		 return mv;
-    }  
+	
   
     @RequestMapping("/hello")  
     public String hello() {  
@@ -143,14 +140,15 @@ public class DemoController extends BaseController{
     }  
     
 	  
-    @PreAuthorize("hasAuthority('user:view')")//有用户添加权限的才能访问  
-    @RequestMapping("/security")  
-    public String security() {  
-        return "hello world security";  
+    @PreAuthorize("hasAuthority('user')")//有用户添加权限的才能访问  
+    @RequestMapping("/user/index")  
+    public ModelAndView userIndex() {  
+    	ModelAndView mv = new ModelAndView("user/index");
+		return mv;
     }  
   
-    @PreAuthorize("hasAuthority('admin')")//必须要有admin权限的才能访问  
-    @RequestMapping("/authorize")  
+    @PreAuthorize("hasAuthority('role')")//必须要有admin权限的才能访问  
+    @RequestMapping("/role/index")  
     public String authorize() {  
         return "有权限访问";  
     }  
