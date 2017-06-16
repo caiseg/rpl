@@ -2,6 +2,8 @@ package com.platform.framework.dao.rights;
 
 import javax.persistence.Table;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.repository.PagingAndSortingRepository;
 import org.springframework.stereotype.Repository;
 
@@ -19,6 +21,16 @@ public interface FwRightUserRepository extends PagingAndSortingRepository<FwRigh
 	 * @return
 	 */
     FwRightUser findByUserCode(String userCode);  
+    
+    
+    /**
+     * 根据userCode 查询分页数据
+     * @param roleName
+     * @param pageable
+     * @return
+     */
+	Page<FwRightUser> findByUserCodeLike(String userCode, Pageable pageable);
+	
     
     
     

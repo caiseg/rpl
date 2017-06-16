@@ -1,29 +1,21 @@
 package com.platform.framework.controller;
 
-import java.sql.Timestamp;
-import java.util.Date;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpRequest;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.google.common.base.Objects;
 import com.google.common.collect.Lists;
 import com.platform.common.config.SystemConfig;
-import com.platform.common.security.UserInfo;
 import com.platform.common.utils.JsonUtils;
 import com.platform.framework.controller.common.BaseController;
-import com.platform.framework.entity.Test;
 import com.platform.framework.entity.rights.FwRightRole;
 import com.platform.framework.service.rights.FwRightRoleService;
 
@@ -139,19 +131,10 @@ public class DemoController extends BaseController{
         return "也不验证哦";  
     }  
     
-	  
-    @PreAuthorize("hasAuthority('user')")//有用户添加权限的才能访问  
-    @RequestMapping("/user/index")  
-    public ModelAndView userIndex() {  
-    	ModelAndView mv = new ModelAndView("user/index");
-		return mv;
-    }  
+
   
-    @PreAuthorize("hasAuthority('role')")//必须要有admin权限的才能访问  
-    @RequestMapping("/role/index")  
-    public String authorize() {  
-        return "有权限访问";  
-    }  
+  
 	
+  
 
 }

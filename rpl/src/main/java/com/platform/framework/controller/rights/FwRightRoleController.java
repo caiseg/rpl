@@ -7,6 +7,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -36,6 +37,13 @@ public class FwRightRoleController {
 		ModelAndView mv = new ModelAndView("user/roleIndex");
 		return mv;
 	}
+	
+	@PreAuthorize("hasAuthority('role')")//必须要有admin权限的才能访问  
+    @RequestMapping("/index")  
+    public ModelAndView authorize() {  
+    	ModelAndView mv = new ModelAndView("role/index");
+        return mv;  
+    }  
 
 	/**
 	 * 

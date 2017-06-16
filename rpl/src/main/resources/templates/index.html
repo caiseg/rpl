@@ -17,24 +17,7 @@
        folder instead of downloading all of them to reduce the load. -->
  <link rel="stylesheet" th:href="@{/dist/css/skins/_all-skins.min.css}"></link>
  
- <script  th:inline="javascript">
- /*<![CDATA[*/
- 
-function loadFrame(navInfo,link){
-			$("#navId").nextAll().remove();
-			var bs = navInfo.split(",");
-			var blen = bs.length; 
-			$("#navId").after("<li class='active'>"+bs[blen-1]+"</li>");
-			for (var i=0;i<blen;i++){
-				if(i == blen -1){
-					$("#titleId").html(bs[i]);
-				}else{
-					$("#navId").after("<li><a href='#'>"+bs[i]+"</a></li>");
-				}	
-			} 
-		}
-/*]]>*/
-</script>
+
  
 </head>
 <body class="hold-transition skin-blue sidebar-mini">
@@ -163,7 +146,7 @@ function loadFrame(navInfo,link){
     <!-- Main content -->
     <section class="content">
 		<div class="box">
-			<iframe id="frameContentId" src="https://www.163yun.com/help/assets" width="100%;" height="100%;" frameborder="0"></iframe>
+			<iframe id="frameContentId"  frameborder="0" th:src="@{/appli}" width="100%;" height="100%;"></iframe>
 		</div>
       <!-- Default box -->
    <!--    <div class="box">
@@ -408,7 +391,38 @@ function loadFrame(navInfo,link){
 <script th:src="@{/plugins/fastclick/fastclick.js}" type="text/javascript"></script>
 <!-- AdminLTE App -->
 <script th:src="@{/dist/js/app.min.js}"></script>
-<!-- AdminLTE for demo purposes -->
-<script th:src="@{/dist/js/demo.js}" type="text/javascript"></script>
+
+ <script  th:inline="javascript" type="text/javascript">
+ /*<![CDATA[*/
+$(function(){
+
+	var aRoot = /*[[${sysId}]]*/
+	
+	if(!aRoot){
+		var cotextRoot = /*[[@{/}]]*/
+		window.location.href =  cotextRoot;
+	}
+});
+ 
+function loadFrame(navInfo,link){
+			$("#navId").nextAll().remove();
+			var bs = navInfo.split(",");
+			var blen = bs.length; 
+			$("#navId").after("<li class='active'>"+bs[blen-1]+"</li>");
+			for (var i=0;i<blen;i++){
+				if(i == blen -1){
+					$("#titleId").html(bs[i]);
+				}else{
+					$("#navId").after("<li><a href='#'>"+bs[i]+"</a></li>");
+				};
+			} 
+			var cotextRoot = /*[[@{/}]]*/
+			
+			$("#frameContentId").attr("src",cotextRoot+link); 
+}
+
+
+/*]]>*/
+</script>
 </body>
 </html>

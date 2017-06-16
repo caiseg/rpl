@@ -37,8 +37,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     /**定义安全策略*/  
     @Override  
     protected void configure(HttpSecurity http) throws Exception {  
-        http.authorizeRequests()
-            .antMatchers("/","/bootstrap/**","/dist/**","/pages/**","/plugins/**","/documentation/**",casProperties.getNoFilter()).permitAll()//定义/请求不需要验证  
+    	http.headers().frameOptions().disable();//设置页面可嵌入iframe当中
+    	http.authorizeRequests()
+            .antMatchers("/","/bootstrap/**","/dist/**","/pages/**","/plugins/**","/500","/404","401",casProperties.getNoFilter()).permitAll()//定义/请求不需要验证  
             .anyRequest().authenticated()//其余的所有请求都需要验证  
             .and()  
         .logout()  

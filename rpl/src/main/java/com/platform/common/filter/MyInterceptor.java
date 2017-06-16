@@ -3,10 +3,15 @@ package com.platform.common.filter;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.codehaus.groovy.util.StringUtil;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.alibaba.druid.util.StringUtils;
+import com.google.common.base.Objects;
 import com.platform.common.security.UserInfo;
 /**
  * 自定义拦截器
@@ -31,18 +36,26 @@ public class MyInterceptor  implements HandlerInterceptor{
 	@Override
 	public void postHandle(HttpServletRequest req, HttpServletResponse rep,
 			Object obj, ModelAndView mv) throws Exception {
-		
-		UserInfo userInfo = null;
-		Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-		  if (principal instanceof UserInfo) {
-			 userInfo = (UserInfo)principal;
-	      }
-		 // System.out.println(obj.toString());
-		  mv.getModelMap().addAttribute("user", userInfo);
-		  String sysId = req.getParameter("sysId");
-		  mv.getModelMap().addAttribute("sysId", sysId);
-		 // model.addAttribute("user", userInfo);
-		
+		if(null == mv){
+			return;
+		}
+		try{
+			UserInfo userInfo = null;
+			SecurityContext sc = SecurityContextHolder.getContext();
+			Authentication authentication = sc.getAuthentication(); 
+			if(null != authentication){
+				Object principal = authentication.getPrincipal();
+				if (principal instanceof UserInfo) {
+					userInfo = (UserInfo)principal;
+				}
+				mv.getModelMap().addAttribute("user", userInfo);
+			}
+			
+		   String sysId = req.getParameter("sysId");
+		   mv.getModelMap().addAttribute("sysId", sysId);
+		}catch (Exception e) {
+			e.printStackTrace();//处理异常
+		}
 	}
 	
 	/**
