@@ -43,13 +43,14 @@ xhr.setRequestHeader(header, token);
           <div class="box">
             <!-- /.box-header -->
             <div class="box-body"> 
-              <table id="grid-data" class="table table-condensed table-hover table-striped" data-toggle="bootgrid" data-ajax="true" data-url="/rpl/user/userList">
+              <table id="grid-data" class="table table-condensed table-hover table-striped">
 				    <thead>
 				        <tr>
 				            <th data-column-id="userCode">账号</th>
 				            <th data-column-id="userName" data-order="desc">用户名称</th>
-				            <th data-column-id="regTime" >注册时间</th>
+				            <th data-column-id="regTime" data-formatter="dateconverts" >注册时间</th>
 				            <th data-column-id="remark" >备注</th>
+				             <th data-column-id="commands" data-formatter="commands" data-sortable="false">操作</th>
 				        </tr>
 				    </thead>
 				</table>
@@ -74,5 +75,82 @@ xhr.setRequestHeader(header, token);
 <script th:src="@{/plugins/slimScroll/jquery.slimscroll.min.js}" type="text/javascript"></script>
 <!-- AdminLTE App -->
 <script th:src="@{/dist/js/app.min.js}"></script>
+
+
+<script th:inline="javascript" type="text/javascript">
+
+ /*<![CDATA[*/
+ 
+ var format = function(time, format){
+    var t = new Date(time);
+    var tf = function(i){return (i < 10 ? '0' : '') + i};
+    return format.replace(/yyyy|MM|dd|HH|mm|ss/g, function(a){
+        switch(a){
+            case 'yyyy':
+                return tf(t.getFullYear());
+                break;
+            case 'MM':
+                return tf(t.getMonth() + 1);
+                break;
+            case 'mm':
+                return tf(t.getMinutes());
+                break;
+            case 'dd':
+                return tf(t.getDate());
+                break;
+            case 'HH':
+                return tf(t.getHours());
+                break;
+            case 'ss':
+                return tf(t.getSeconds());
+                break;
+        }
+    })
+}
+ 
+var grid = $("#grid-data").bootgrid({
+    ajax: true,
+    rowCount:[20,50,100],
+    labels: {
+        noResults: "未找到记录！",
+        refresh:"刷新",
+        search:"查询",
+        infos:"当前： {{ctx.start}} - {{ctx.end}} 总共 ：{{ctx.total}} 条"
+    },
+    post: function ()
+    {
+        return {
+            userCode: ""//传递给java的参数，暂时未使用上
+        };
+    },
+    url: "/rpl/user/userList",
+    formatters: {
+        "commands": function(column, row)
+        {
+            return "<button type=\"button\" class=\"btn btn-xs btn-default command-edit\" data-row-id=\"" + row.id + "\"><span class=\"fa fa-pencil\"></span></button> " + 
+                "<button type=\"button\" class=\"btn btn-xs btn-default command-delete\" data-row-id=\"" + row.id + "\"><span class=\"fa fa-trash-o\"></span></button>";
+        },
+        "dateconverts":function(column,row){
+        	var regTime = row.regTime;
+        	if(!regTime){
+        		return "";
+        	}
+        	return format(regTime, 'yyyy-MM-dd');
+        }
+    }
+}).on("loaded.rs.jquery.bootgrid", function()
+{
+    /* Executes after data is loaded and rendered */
+    grid.find(".command-edit").on("click", function(e)
+    {
+        alert("You pressed edit on row: " + $(this).data("row-id"));
+    }).end().find(".command-delete").on("click", function(e)
+    {
+        alert("You pressed delete on row: " + $(this).data("row-id"));
+    });
+});
+/*]]>*/
+</script>
+
 </body>
 </html>

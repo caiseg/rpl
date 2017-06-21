@@ -49,7 +49,7 @@
   var demo_settings = $("<div />");
 
   //Layout options
-  demo_settings.append(
+/*  demo_settings.append(
       "<h4 class='control-sidebar-heading'>"
       + "Layout Options"
       + "</h4>"
@@ -101,7 +101,7 @@
       + "</label>"
       + "<p>Toggle between dark and light skins for the right sidebar</p>"
       + "</div>"
-  );
+  );*/
   var skins_list = $("<ul />", {"class": 'list-unstyled clearfix'});
 
   //Dark sidebar skins
@@ -204,7 +204,7 @@
           + "<p class='text-center no-margin' style='font-size: 12px;'>Yellow Light</p>");
   skins_list.append(skin_yellow_light);
 
-  demo_settings.append("<h4 class='control-sidebar-heading'>Skins</h4>");
+  demo_settings.append("<h4 class='control-sidebar-heading'>皮肤:</h4>");
   demo_settings.append(skins_list);
 
   tab_pane.append(demo_settings);
