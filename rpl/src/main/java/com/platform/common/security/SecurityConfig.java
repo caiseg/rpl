@@ -38,20 +38,28 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Override  
     protected void configure(HttpSecurity http) throws Exception {  
     	http.headers().frameOptions().disable();//设置页面可嵌入iframe当中
+    	
+    	//ajax异常 
+    	//http.exceptionHandling().accessDeniedHandler(new DefaultAccessDeniedHandlerImpl());
+    	
     	http.authorizeRequests()
-            .antMatchers("/","/bootstrap/**","/dist/**","/pages/**","/plugins/**","/500","/404","401",casProperties.getNoFilter()).permitAll()//定义/请求不需要验证  
+            .antMatchers("/","/bootstrap/**","/dist/**","/pages/**","/plugins/**","/500","/404","403",casProperties.getNoFilter()).permitAll()//定义/请求不需要验证  
             .anyRequest().authenticated()//其余的所有请求都需要验证  
             .and()  
         .logout()  
             .permitAll()//定义logout不需要验证  
             .and()  
         .formLogin();//使用form表单登录  
-          
-        http.exceptionHandling().authenticationEntryPoint(casAuthenticationEntryPoint())  
+        
+    	
+        http.exceptionHandling().authenticationEntryPoint(casAuthenticationEntryPoint())
             .and()  
             .addFilter(casAuthenticationFilter())  
             .addFilterBefore(casLogoutFilter(), LogoutFilter.class)  
-            .addFilterBefore(singleSignOutFilter(), CasAuthenticationFilter.class);  
+            .addFilterBefore(singleSignOutFilter(), CasAuthenticationFilter.class);
+        
+        //http.exceptionHandling().accessDeniedHandler(new DefaultAccessDeniedHandlerImpl("403"));
+    	
           
         //http.csrf().disable(); //禁用CSRF  
     }  
@@ -61,7 +69,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     public CasAuthenticationEntryPoint casAuthenticationEntryPoint() {  
         CasAuthenticationEntryPoint casAuthenticationEntryPoint = new CasAuthenticationEntryPoint();  
         casAuthenticationEntryPoint.setLoginUrl(casProperties.getCasServerLoginUrl());  
-        casAuthenticationEntryPoint.setServiceProperties(serviceProperties());  
+        casAuthenticationEntryPoint.setServiceProperties(serviceProperties());
         return casAuthenticationEntryPoint;  
     }  
       

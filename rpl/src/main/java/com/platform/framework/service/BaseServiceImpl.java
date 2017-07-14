@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.platform.framework.dao.BaseDao;
+import com.platform.framework.dao.log.FwOperationLogRepository;
 
 
 
@@ -19,6 +20,9 @@ public class BaseServiceImpl extends AbstractService implements BaseService {
 
 	@Autowired
 	private BaseDao baseDao;
+	
+
+	
 	/**
 	 * 
 	  * <p>功能描述：获取对应baseDao实现类的接口。</p>	
@@ -41,6 +45,8 @@ public class BaseServiceImpl extends AbstractService implements BaseService {
 	public void setDao(BaseDao baseDao) {
 		this.baseDao = baseDao;
 	}
+	
+
 
 	
 }

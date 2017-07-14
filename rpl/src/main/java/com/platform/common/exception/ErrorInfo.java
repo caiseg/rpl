@@ -1,8 +1,10 @@
 package com.platform.common.exception;
 
+import com.alibaba.fastjson.JSONObject;
+
 public class ErrorInfo {
 	 
-public static final Integer OK = 0;
+public static final Integer OK = 200;
 public static final Integer ERROR = 100;
  
 private Integer code;
@@ -32,5 +34,11 @@ public static Integer getOk() {
 public static Integer getError() {
 	return ERROR;
 }
+@Override
+public String toString() {
+	return JSONObject.toJSONString(this);
+}
+
+
  
 }

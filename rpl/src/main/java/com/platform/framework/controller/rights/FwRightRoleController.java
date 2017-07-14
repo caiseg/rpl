@@ -55,7 +55,7 @@ public class FwRightRoleController {
 		Sort sort = new Sort(Sort.Direction.DESC, "id");
 		Pageable pageable = new PageRequest(0, 10, sort); //查询十条数据 
 		Page<FwRightRole> pages= fwRightRoleService.findRolePage(rolename,pageable);
-		return JsonUtils.dealPage(pages);
+		return JsonUtils.dealBootPage(pages);
 	}
 	
 	
@@ -70,7 +70,7 @@ public class FwRightRoleController {
 		Sort sort = new Sort(Sort.Direction.DESC, "datathird_dic_id");
 		Pageable pageable = new PageRequest(1, 10, sort); //查询十条数据 
 		Page<Map> pages= fwRightRoleService.findNativeSql(pageable);
-		return JsonUtils.dealPage(pages);
+		return JsonUtils.dealBootPage(pages);
 	}
 
 

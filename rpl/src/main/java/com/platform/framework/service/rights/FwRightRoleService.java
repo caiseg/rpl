@@ -100,15 +100,10 @@ public class FwRightRoleService extends BaseServiceImpl {
 	 */
 	@Transactional
 	public int saveRole() throws Exception {
-		FwRightRole fwRightRole1 = new FwRightRole();
-		fwRightRole1.setId("12321");
-		fwRightRole1.setRoleName("test411");
-		FwRightRole fwRightRole2 = new FwRightRole();
-		fwRightRole2.setId("222");
-		fwRightRole2.setRoleName("test222");
-		fwRightRoleRepository.save(fwRightRole1);
-		fwRightRoleRepository.save(fwRightRole2);
-		// System.out.println(1/0);
+		
+		
+		//日志操作
+		this.getLogDao().save(this.getOperationLog(OPERATE_TYPE_ADD, "日志表", "测试日志信息。"));
 		return 1;
 	}
 

@@ -27,6 +27,8 @@ public class FwRightOrg implements java.io.Serializable {
 	private String orgLevel;
 	private String orgAddress;
 	private String orgManager;
+	private Integer sort;//排序字段 
+	
 	private String linkMan;//联系人
 	private String linkPhone;//联系电话
 	private String isDept;//是否是机构，实际部门
@@ -179,6 +181,15 @@ public class FwRightOrg implements java.io.Serializable {
 
 	public void setIsDeleted(String isDeleted) {
 		this.isDeleted = isDeleted;
+	}
+	
+
+	public Integer getSort() {
+		return sort;
+	}
+
+	public void setSort(Integer sort) {
+		this.sort = sort;
 	}
 
 	@Column(name = "CREATE_USER_CODE", length = 100)

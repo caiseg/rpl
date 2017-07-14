@@ -141,9 +141,9 @@ public abstract class AbstractDao implements Dao{
 					}else if(systemConfig.getDbType().equals("mysql")){
 						
 						if(!StringUtils.isEmpty(sortOrder)){
-							tempSql = Sql+ " order by " +sortFiled+" "+sortOrder+ " limit "+((pageable.getPageNumber()+1) * pageable.getPageSize())+","+pageable.getPageSize();
+							tempSql = Sql+ " order by " +sortFiled+" "+sortOrder+ " limit "+((pageable.getPageNumber()) * pageable.getPageSize())+","+pageable.getPageSize();
 						}else{
-							tempSql = Sql+ " limit "+((pageable.getPageNumber()+1) * pageable.getPageSize())+","+pageable.getPageSize();
+							tempSql = Sql+ " limit "+((pageable.getPageNumber()) * pageable.getPageSize())+","+pageable.getPageSize();
 						}
 						
 					}

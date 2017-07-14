@@ -28,15 +28,15 @@ public class FwPlSystem implements java.io.Serializable {
 	  *
 	  * @since Ver 1.1
 	  */
-	private String id;
-	private String systemCode;
-	private String systemName;
+	private String id;//系统ID
+	private String systemCode;//系统编码
+	private String systemName;//系统名称
 	private String iconCls;
 	private String systemLogo;
 	private String systemIndexPage;
-	private String openUrl;
-	private String openType;
-	private BigDecimal defaultSeqNo;
+	private String openUrl;//打开的URL
+	private String openType;//打开的类型,  弹出，整体替换,iframe嵌入
+	
 	private String isEnabled;
 	private String isDeleted;
 	private String createUserCode;
@@ -46,8 +46,8 @@ public class FwPlSystem implements java.io.Serializable {
 	private String updateUserName;
 	private Date updateTime;
 	private String remark;
-    private String  needCheck;//;
-    private String  serverId;
+	
+    private String  serverId;//所属服务器ID
     private String  tabIndexPage;
 	/** default constructor */
 	public FwPlSystem() {
@@ -61,7 +61,7 @@ public class FwPlSystem implements java.io.Serializable {
 	/** full constructor */
 	public FwPlSystem(String id, String systemCode, String systemName,
 			String iconCls, String systemLogo, String systemIndexPage,
-			String openUrl, String openType, BigDecimal defaultSeqNo,
+			String openUrl, String openType,
 			String isEnabled, String isDeleted, String createUserCode,
 			String createUserName, Date createTime, String updateUserCode,
 			String updateUserName, Date updateTime, String remark,String serverId,String tabIndexPage) {
@@ -73,7 +73,6 @@ public class FwPlSystem implements java.io.Serializable {
 		this.systemIndexPage = systemIndexPage;
 		this.openUrl = openUrl;
 		this.openType = openType;
-		this.defaultSeqNo = defaultSeqNo;
 		this.isEnabled = isEnabled;
 		this.isDeleted = isDeleted;
 		this.createUserCode = createUserCode;
@@ -84,7 +83,7 @@ public class FwPlSystem implements java.io.Serializable {
 		this.updateTime = updateTime;
 		this.remark = remark;
 		this.serverId = serverId;
-		this.tabIndexPage = tabIndexPage;
+		this.tabIndexPage = tabIndexPage;  //默认进入的页面链接
 	}
 
 	// Property accessors
@@ -161,14 +160,6 @@ public class FwPlSystem implements java.io.Serializable {
 		this.openType = openType;
 	}
 
-	@Column(name = "DEFAULT_SEQ_NO", precision = 22, scale = 0)
-	public BigDecimal getDefaultSeqNo() {
-		return this.defaultSeqNo;
-	}
-
-	public void setDefaultSeqNo(BigDecimal defaultSeqNo) {
-		this.defaultSeqNo = defaultSeqNo;
-	}
 
 	@Column(name = "IS_ENABLED", length = 10)
 	public String getIsEnabled() {
@@ -251,13 +242,6 @@ public class FwPlSystem implements java.io.Serializable {
 
 	public void setRemark(String remark) {
 		this.remark = remark;
-	}
-	@Column(name = "NEED_CHECK", length = 2)
-	public String getNeedCheck() {
-		return needCheck;
-	}
-	public void setNeedCheck(String needCheck) {
-		this.needCheck = needCheck;
 	}
 	@Column(name = "SERVER_ID", length = 100)
 	public String getServerId() {
