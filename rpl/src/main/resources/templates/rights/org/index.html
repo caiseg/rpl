@@ -1,0 +1,246 @@
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head th:include="commonBase">
+<title>用户管理</title>
+</head>
+<body style="height: 650px;">
+<div class="mini-splitter" handlerSize="0.1"  style="width:100%;height:100%;">
+	   <div size="20%" showCollapseButton="false">
+	    <div class="mini-toolbar"
+			style="padding:2px;border-top:0;border-left:0;border-right:0;">
+			<span style="padding-left:5px;">名称：</span> <input id="key" emptyText="请输入机构名称"
+				class="mini-textbox" style="width:120px;" onenter="orgDimTreeSearch" AUTOCOMPLETE="on" /> 
+				<a class="mini-button" iconCls="icon-search" plain="true"
+				onclick="orgDimTreeSearch()">查找</a>
+		</div>
+		<div class="mini-fit">
+			<ul id="tree1" class="mini-tree"  th:attr="url=@{/org/list}" 
+				 style="width:100%;"
+				showTreeIcon="true" textField="orgName" idField="id" expandOnLoad="0" onnodeclick="csearch()"
+				parentField="parentId" resultAsTree="false"  allowDrag="true" allowDrop="true">
+			</ul>
+		</div>
+        
+    </div>
+     <div showCollapseButton="false">
+	 	<div style="width:100%;">
+			<div class="mini-toolbar" style="border-bottom:0;padding:0px;">
+					<table style="width:100%;">
+						<tr>
+			                 <td style="width:100%;" id="operationId"> 
+			                 	<a id="addId" class="mini-button"  plain="true" iconCls="icon-addnew" onclick="add">添加</a>
+			                 	<span class="separator"></span>
+			                 	<a id="editId" class="mini-button" plain="true" iconCls="icon-edit" onclick="edit">修改</a>
+			                 	<span class="separator"></span>
+			                 	<a id="deleteId" class="mini-button" plain="true" iconCls="icon-remove" onclick="delete">删除</a>
+			                 </td>	
+							 <td style="white-space:nowrap;">
+								<input id="searchKey" class="mini-textbox" emptyText="请输入名称或编码" style="width:150px;" onenter="search"/>
+								<a class="mini-button" onclick="search()">查询</a>
+							 </td> 
+						</tr>
+					</table>
+				</div>
+		</div>
+		<div class="mini-fit">
+				<div id="grid1" class="mini-datagrid"
+					style="width:100%;height:100%;" borderStyle="border:0;"
+					allowCellSelect="true" multiSelect="true" allowAlternating="false" sortField="org_level,org_Code,org_Name" sortOrder="desc" idField="id" pageSize="15" sizeList="[10,15,20,50,100]"
+					 th:attr="url=@{/org/pagelist}"  >
+					<div property="columns">
+						<!-- <div type="indexcolumn"></div> -->
+						<div type="checkcolumn"></div>
+						<div field="orgName"  sortField="ORG_NAME" width="100" allowSort="true">组织机构名称</div>
+						<div field="orgCode" sortField="ORG_CODE" width="100" allowSort="true" >组织机构编号</div>
+						<div field="parentId" width="100" renderer="onOpenOrgName" >所属上级机构</div>
+						<div field="linkMan" width="100">联系人</div>
+						<div field="linkPhone" width="100" >联系电话</div>
+						<div field="zipCode" width="100" >邮编</div>
+						<div field="orgAddress" width="100"  >地址</div>
+						<div field="isEnable" width="100"  renderer="onOpenURenderer">是否启用</div>
+						<div field="remark" width="100" headerAlign="center"  >备注</div>
+					</div>
+				</div>
+		</div>
+	</div>
+</div>		
+
+</body>
+
+<script th:inline="javascript" type="text/javascript">
+ /*<![CDATA[*/
+
+var orgNameList = null;
+
+var grid =  null;//表格对象
+var tree = null;//树对象
+$(function(){
+	  mini.parse();
+	  grid = mini.get("grid1");
+	  tree = mini.get("tree1");
+	  queryOrg();//缓存所有组织机构
+});
+
+function add(){
+	 mini.open({
+        url:basePath+"org/edit",
+        title: "新增机构", iconCls:'icon-addnew', width: 528, height: 460,
+        onload: function () {
+            var iframe = this.getIFrameEl();
+            var selectNode = tree.getSelectedNode();//获取选中的节点
+            
+             var parentId  =  "1";
+           	 var parentName = "全国";
+           	 var orgLevel = "0";
+            
+            if(!!selectNode){//如果选中了节点
+            	var pnode  = tree.getParentNode(selectNode);
+            	parentId = selectNode.id;//获取当前的parentId
+            	var parentNodes = tree.getAncestors(selectNode);
+                parentName= getAllOrgName(parentNodes);//获取所有组织机构名称
+                parentName  = parentName + selectNode.orgName;
+            	orgLevel = tree.getLevel(selectNode);//当前级别 
+            }
+           
+            
+            //var parentId = tree.getList();
+            var data = { action:"new",parentId:parentId,parentName:parentName,orgLevel:orgLevel};
+            iframe.contentWindow.setData(data);
+        },
+        ondestroy: function (action) {
+			if (action != "close" && action != "cancle"){
+        		grid.reload();
+			}
+        }
+    });
+
+}
+
+
+function edit(){
+
+	
+	var rows = grid.getSelecteds();
+	if(rows.length>1){
+		mini.alert("只能选择一条记录!");
+		return;
+	}
+	var row = grid.getSelected();
+    if (row) {
+			 mini.open({
+		        url:basePath+"org/edit",
+		        title: "修改机构", iconCls:'icon-edit', width: 528, height: 460,
+		        onload: function () {
+		             var iframe = this.getIFrameEl();
+		             var selectNode = row.id;//获取选中的节点
+		             var parentNodes = tree.getAncestors(selectNode);
+		             
+		             alert(parentNodes);
+		             var parentName= getAllOrgName(parentNodes)+ selectNode.orgName;//获取所有组织机构名称
+		             
+		             alert(parentName);
+		             
+		             var orgLevel = tree.getLevel(selectNode);//当前级别 
+		             
+		            
+		            //var parentId = tree.getList();
+		            var data = { action:"edit",parentName:parentName,orgLevel:orgLevel,fwRightOrg:row};
+		            iframe.contentWindow.setData(data);
+		        },
+		        ondestroy: function (action) {
+					if (action != "close" && action != "cancle"){
+		        		grid.reload();
+					}
+		        }
+		    });
+    }
+
+}
+
+//缓存所有组织机构
+function queryOrg(){
+	 $.ajax({
+		 url:basePath+"org/list",
+		 type: 'POST',
+	     async:false,
+		 success : function(text) {
+			 orgNameList = mini.decode(text);
+			 grid.load();
+		 },
+		 error : function() {
+		 }
+	  });
+}
+
+function csearch(){
+	var orgNode = tree.getSelectedNode();
+	var parentId = orgNode.id;//获取parentId
+	grid.load({"parentId":parentId});
+}
+
+
+/***查询***/
+function search() {
+	var  searchKey= mini.get("searchKey").getValue();
+	if(searchKey!=""){
+		grid.load({"searchPhrase":searchKey});
+	}else{
+		grid.load();
+	}
+}
+
+/******所属上级机构名称*****/
+function onOpenOrgName(e){
+	var orgName="";
+	var orgId = e.row.parentId;
+	if(orgNameList!=null&&orgNameList.length>0){
+		   for(var i=0;i<orgNameList.length;i++){
+			   if(orgId==orgNameList[i].id){
+				   orgName =  orgNameList[i].orgName;
+				   break;
+			   }  
+		   }
+	   }
+	   return orgName;
+}
+
+/***获取组织机构名称  例如：全国/北京市/海淀区   ***/
+function getAllOrgName(nodeArr){
+
+	var orgName = "";
+	for (var i = nodeArr.length -1; i >=0; i--) {
+        orgName  = nodeArr[i].orgName+"/"+orgName; 
+    };
+	return orgName;
+}
+
+
+var openU = [{ id: 1, text: '是' }, { id: 0, text: '否'}];
+function onOpenURenderer(e) {
+    for (var i = 0, l = openU.length; i < l; i++) {
+        var g = openU[i];
+        if (g.id == e.value) return g.text;
+    }
+    return "";
+}
+
+
+ function orgDimTreeSearch() {
+      var key = mini.get("key").getValue();
+      if (key == "") {
+          tree.clearFilter();
+      } else {
+          key = key.toLowerCase();                
+          tree.filter(function (node) {
+              var text = node.orgName ? node.orgName.toLowerCase() : "";
+              if (text.indexOf(key) != -1) {
+                  return true;
+              }
+          });
+      }
+  }
+
+
+
+/*]]>*/
+</script>
+</html>

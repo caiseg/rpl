@@ -1,0 +1,195 @@
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head th:include="commonBase">
+<title>用户管理</title>
+</head>
+<script type="text/javascript">
+ /*<![CDATA[*/
+	var isType = [{id:'1',text:'是'},{id:'0',text:'否'}];
+/*]]>*/
+</script>	
+<body>
+<div class="mini-fit">
+	<form id="form1" method="post">
+	    <input id="id" name="id" class="mini-hidden" />
+		<input id="parentId" name="parentId" class="mini-hidden" />
+		<input id="orgLevel" name="orgLevel" class="mini-hidden" />
+		<div style="padding-left:11px;padding-bottom:5px;">
+			<table style="table-layout:fixed;">
+				<tr>
+					<td>机构名称:</td>
+					<td colspan="3"><input name="orgName" class="mini-textbox" style="width:355px;"
+						required="true" requiredErrorText="不可为空" emptyText="机构名称" /><span><font color="red">*</font></span>
+					</td>
+				</tr>
+				<tr>
+					<td>机构编号:</td>
+					<td colspan="3"><input name="orgCode" class="mini-textbox" style="width:355px;" required="true" requiredErrorText="不可为空" emptyText="机构编号" /><span><font color="red">*</font></span>
+					</td>
+				</tr>
+				<tr>
+					<td>是否部门:</td>
+					<td colspan="3">
+						<input name="orgType" class="mini-combobox" valueField="id" textField="text" required="true" allowInput="false" 
+						width="355px" requiredErrorText="不可为空" emptyText="请选择是否部门" data="isType"  value="0"/><font color="red">*</font>
+					</td>
+				</tr>
+				<tr>
+					<td>上级组织机构:</td>
+					<td colspan="3">
+						 <input id="parentName" name="parentName" class="mini-textbox"  allowInput="false" enabled="false" style="width:355px;"/>  
+					</td>
+				</tr>
+				<tr>
+					<td>联&nbsp;系&nbsp;&nbsp;人:</td>
+					<td><input name="linkMan" class="mini-textbox"  style="width:145px;"
+						emptyText="联系人" />
+					</td>
+					<td>联系电话:</td>
+					<td><input name="linkPhone" class="mini-textbox" style="width:130px;"
+					    emptyText="联系电话" /></td>
+				</tr>
+				<tr>
+					<td>邮&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;编:</td>
+					<td colspan="3"><input name="zipCode" class="mini-textbox"  style="width:355px;"
+						emptyText="邮编" />
+					</td>
+				</tr>
+				<tr>
+					<td>地&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;址:</td>
+					<td colspan="3"><input name="orgAddress" class="mini-textbox" style="width:355px;"
+					    emptyText="地址" /></td>
+				</tr>
+				<tr>
+    				<td>是否启用:</td>
+    				<td colspan="3">
+    					<input name="isEnable" class="mini-combobox" valueField="id" textField="text" required="true" allowInput="false" width="355px" requiredErrorText="不可为空" emptyText="请选择是否启用" 
+    					data="isType" value="1"/><font color="red">*</font>
+    				</td>
+    			</tr>
+				<tr>
+					<td>备&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;注:</td>
+					<td colspan="3"><input name="remark" class="mini-textarea"
+						style="width:355px;" />
+					</td>
+				</tr>
+
+			</table>
+		</div>
+	</form>
+	</div>
+	<div class="mini-toolbar" style="text-align:center;height:20px;padding-top:8px;padding-bottom:8px;" 
+        borderStyle="border-left:0;border-bottom:0;border-right:0;">
+        <a class="mini-button" onclick="onOk" iconCls="icon-save" style="width:85px;margin-right:20px;">保存</a>
+        <span style="display:inline-block;width:25px;"></span>
+        <a class="mini-button" onclick="onCancel" iconCls="icon-close" style="width:85px;">关闭</a>
+    </div>
+</body>
+<script type="text/javascript">
+ /*<![CDATA[*/
+	mini.parse();
+	var action = "new";
+	var form = null;
+	function setData(data) {
+		action = data.action;//获取指令，是新增 还是修改
+		form = new mini.Form("#form1");//获取表单对象
+		data = mini.clone(data);//获取克隆数据
+	    if (action == "edit") {
+	        //跨页面传递的数据对象，克隆后才可以安全使用
+	        data = mini.clone(data);
+	        form.setData(data.fwRightOrg);
+	        mini.get("parentName").setValue(data.parentName);
+    		mini.get("orgLevel").setValue(data.orgLevel);
+		 	form.setChanged(false);
+	    }else{
+	    	data = mini.clone(data);
+    		mini.get("parentId").setValue(data.parentId);//设置parentId
+    		mini.get("parentName").setValue(data.parentName);
+    		mini.get("orgLevel").setValue(data.orgLevel);
+	    }
+	}
+	
+	//新增机构
+	function orgAdd(json){
+		$.ajax({
+	        url: basePath+"org/add",
+			type: 'post',
+	        data: {data:json},
+	        cache: false,
+	        success: function (successData) {
+	        	var message = mini.decode(successData);
+	        	mini.unmask(document.body);
+	        	if(message.type == '200'){
+	            	mini.alert("机构添加成功",'',closeWindow);
+	        	}else{
+	        		mini.alert("机构添加失败",'',closeWindow);
+	        	}
+	        	
+	        },
+	        error: function (XMLHttpRequest, textStatus, errorThrown) {
+	        	mini.unmask(document.body);
+	        	mini.alert("机构添加失败",'',closeWindow);
+	        }
+	    });
+	}
+	//更新机构信息
+	function orgUpdate(json){
+		$.ajax({
+	        url: basePath+"org/update",
+			type: 'post',
+	        data: { data: json},
+	        cache: false,
+	        success: function (text) {
+	        	var message = mini.decode(successData);
+	        	mini.unmask(document.body);
+	        	if(message.type == '200'){
+	            	mini.alert("机构添加成功",'',closeWindow);
+	        	}else{
+	        		mini.alert("机构添加失败",'',closeWindow);
+	        	}
+	        },
+	        error: function (jqXHR, textStatus, errorThrown) {
+	        	mini.unmask(document.body);
+	            mini.alert("机构添加失败",'',closeWindow);
+	        }
+	    });
+	}
+	
+	
+	function saveData() {
+	    var o = form.getData();  
+	    form.validate();
+	    if (form.isValid() == false) return;
+	    var json = mini.encode(o);
+	    mini.mask({
+	        el: document.body,
+	        cls: 'mini-mask-loading',
+	        html: '加载中...'
+	    });
+	    if (action == "edit"){
+	        orgUpdate(json);
+	    }else{
+	    	orgAdd(json);
+	    }
+	}
+	
+	
+	function onOk(){
+		saveData();
+	}
+	
+	function closeWindow(action) {
+	    if (action == "close" && form.isChanged()) {
+	        if (confirm("数据被修改了，是否先保存？")) {
+	            return false;
+	        }
+	    }
+	    if (window.CloseOwnerWindow) return window.CloseOwnerWindow(action);
+	    else window.close();            
+	}
+	
+	function onCancel(){
+		closeWindow("close");
+	}
+/*]]>*/
+</script>
+</html>
